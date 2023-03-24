@@ -1,11 +1,13 @@
-const BookList = () => {
+import BookShow from './BookShow';
+
+const BookList = ({books, onDelete}) => {
+    const renderBooks = books.map((book) => {
+        return <BookShow key={book.id} book={book} onDelete={onDelete} />
+    })
+
     return (
         <div className="book-list">
-        <ul>
-            <li>the way of kings</li>
-            <li>the name of the wind</li>
-            <li>the final empire</li>
-        </ul>
+        {renderBooks}
         </div>
     );
 }
