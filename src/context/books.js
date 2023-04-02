@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useCallback } from "react";
 import axios from "axios";
 
 const BooksContext = createContext();
@@ -6,10 +6,13 @@ const BooksContext = createContext();
 function Provider({children}){
     const [books, setBook] = useState([]);
 
-    const fetchBooks = async () => {
+    // we wrap the fetchBooks function in useCallback to prevent it from being recreated on every render
+    const fetchBooks = useCallback( async () => {
         const response = await axios.get('http://localhost:3001/books');
         setBook(response.data);
-      };
+      }, []);
+
+    // const stableFechBooks = useCallback(fetchBooks, []); # it's not necessary
 
     const editBookById = async (id, title) => {
     const response = await axios.put(`http://localhost:3001/books/${id}`, {title});
